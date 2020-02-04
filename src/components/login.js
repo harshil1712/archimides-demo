@@ -52,15 +52,13 @@ class Login extends Component {
     const { email, password, admin } = this.state;
     const bodyObj = {email, password}
     Auth.authenticate(admin, bodyObj)
-    console.log(Auth.getPath())
-    this.props.history.push(Auth.getPath())
-    // let userId = localStorage.getItem("USERID")
-    // if(userId !=null){
-    //   await this.props.history.push(`/app/${userId}/getStories`)
-    // }
-    // if(localStorage.getItem("USERID") == 'admin'){
-    //   await this.props.history.push(`/admin/getStories`)
-    // }
+    console.log(Auth.getRole())
+    if(Auth.getRole()=="user"){
+      this.props.history.push(`/app/2/getStories`)
+    }
+    if(localStorage.getItem("USERID") == 'admin'){
+      this.props.history.push(`/admin/getStories`)
+    }
   }
 
   // submitHandle = e => {

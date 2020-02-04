@@ -3,14 +3,12 @@ import baseURL from "../baseURL";
 import {Redirect} from 'react-router-dom'
 
 const login = (admin, bodyObj)=> {
-    // let pathname= ''
     if(!admin || null) {
         axios.post(baseURL+'login',{
             bodyObj
         })
         .then(res=>{
             localStorage.setItem("USERID", res.data.id)
-            return `/app/${res.data.id}/getStories`
         })
     }
     else{
@@ -19,16 +17,15 @@ const login = (admin, bodyObj)=> {
         })
         .then(res=>{
             localStorage.setItem('USERID', 'admin')
-            return `/admin/getStories`
         })
     }
 }
 
 const Auth = {
     isAuthenticated: false,
-    pathname: '',
+    role: '',
     authenticate(admin, body){
-        this.pathname= login(admin,body)
+        login(admin,body)
         this.isAuthenticated = true
         // localStorage.setItem('AUTH', this.isAuthenticated)
     },
@@ -38,8 +35,9 @@ const Auth = {
         localStorage.removeItem('USERID')
     },
 
-    getPath() {
-        return this.pathname
+    getRole() {
+        this.role = localStorage.getItem("USERID")
+        return this.role
     },
 
     getAuth() {
